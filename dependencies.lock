@@ -4,6 +4,12 @@ dependencies:
     source:
       type: idf
     version: 4.4.4
-manifest_hash: dcf4d39b94252de130019eadceb989d72b0dbc26b552cfdcbb50f6da531d2b92
+  protocol_examples_common:
+    component_hash: null
+    source:
+      path: /Users/lucaszheng/.platformio/packages/framework-espidf@3.40404.0/examples/common_components/protocol_examples_common
+      type: local
+    version: '*'
+manifest_hash: f32becbf256396c8400533725392aadca75afd05b4f8c5d009413d06522f89fa
 target: esp32
 version: 1.0.0
