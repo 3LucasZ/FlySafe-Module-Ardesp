@@ -1,25 +1,30 @@
 extern "C" {
     #include <esp_event.h>
+    #include <esp_log.h>
+    #include <esp_system.h>
+    #include <nvs_flash.h>
+    #include <sys/param.h>
+    #include "esp_netif.h"
+    // #include "esp_eth.h"
+    // #include "esp_wifi.h"
+    // #include "protocol_examples_common.h"
+    // #include "lwip/sockets.h"
+    // #include <esp_https_server.h>
+    #include "sdkconfig.h"
+    #include <esp_err.h>
+    #include "esp_mac.h"
 }
-#include <esp_log.h>
-#include <esp_system.h>
-#include <nvs_flash.h>
-#include <sys/param.h>
-#include "esp_netif.h"
-#include "esp_eth.h"
-#include "esp_wifi.h"
-#include "protocol_examples_common.h"
-#include "lwip/sockets.h"
-#include <esp_https_server.h>
-#include "sdkconfig.h"
-#include <esp_err.h>
-#include "esp_mac.h"
+
+#include <Arduino.h>
+#include <Wire.h>
+#include <LIDARLite.h>
+
 //***
 extern "C" {
     #include "keep_alive.h"
     #include "wss_server.h"
 }
-#include <Arduino.h>
+
 //***
 
 extern "C" void app_main(void)

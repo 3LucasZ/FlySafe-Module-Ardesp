@@ -1,9 +1,10 @@
-#pragma once
+#ifndef WSS_SERVER_H
+#define WSS_SERVER_H
 
-#include <esp_event.h>
+// #include <esp_event.h>
 #include <esp_log.h>
 #include <esp_system.h>
-#include <nvs_flash.h>
+// #include <nvs_flash.h>
 #include <sys/param.h>
 #include "esp_netif.h"
 #include "esp_eth.h"
@@ -31,10 +32,11 @@ struct async_resp_arg {
     int fd;
 };
 
-const char *TAG = "wss_echo_server";
+extern const char *TAG;
 const size_t max_clients = 4;
 
 esp_err_t root_get_handler(httpd_req_t *req);
+
 esp_err_t ws_handler(httpd_req_t *req);
 
 esp_err_t wss_open_fd(httpd_handle_t hd, int sockfd);
@@ -47,7 +49,8 @@ const httpd_uri_t ws = {
         .handler    = ws_handler,
         .user_ctx   = NULL,
         .is_websocket = true,
-        .handle_ws_control_frames = true
+        .handle_ws_control_frames = true,
+        .supported_subprotocol = "soap",
 };
 
 
@@ -83,6 +86,11 @@ const httpd_uri_t root = {
         .uri        = "/",
         .method     = HTTP_GET,
         .handler    = root_get_handler,
+        .user_ctx   = NULL,
+        .is_websocket = false,
+        .handle_ws_control_frames = false,
+        .supported_subprotocol = "soap",
 };
 
 //***
+#endif

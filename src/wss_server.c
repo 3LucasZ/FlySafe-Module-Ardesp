@@ -1,7 +1,7 @@
-#include <esp_event.h>
+// #include <esp_event.h>
 #include <esp_log.h>
 #include <esp_system.h>
-#include <nvs_flash.h>
+// #include <nvs_flash.h>
 #include <sys/param.h>
 #include "esp_netif.h"
 #include "esp_eth.h"
@@ -16,6 +16,8 @@
 //***
 #include <wss_server.h>
 //***
+
+const char *TAG = "wss_echo_server";
 
 esp_err_t root_get_handler(httpd_req_t *req)
 {
