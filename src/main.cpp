@@ -19,17 +19,18 @@ extern "C" {
 #include <Wire.h>
 #include <LIDARLite.h>
 
-//***
 extern "C" {
     #include "keep_alive.h"
     #include "wss_server.h"
 }
 
-//***
-
 extern "C" void app_main(void)
 {
     initArduino();
+    LIDARLite lidar;
+    lidar.begin(0, true);
+    lidar.configure(3);
+
     static httpd_handle_t server = NULL;
 
     ESP_ERROR_CHECK(nvs_flash_init());

@@ -15,6 +15,11 @@
 #include "esp_mac.h"
 //***
 #include <wss_server.h>
+#ifdef __cplusplus
+extern "C" {
+    #include <LIDARLite.h>
+}
+#endif
 //***
 
 const char *TAG = "wss_echo_server";
@@ -108,8 +113,9 @@ void wss_close_fd(httpd_handle_t hd, int sockfd)
     close(sockfd);
 }
 
-void send_hello(void *arg)
+void send_dist(void *arg)
 {
+
     const char * data = "Hello client";
     struct async_resp_arg *resp_arg = arg;
     httpd_handle_t hd = resp_arg->hd;
@@ -259,7 +265,7 @@ void wss_server_send_messages(httpd_handle_t* server)
                     struct async_resp_arg *resp_arg = malloc(sizeof(struct async_resp_arg));
                     resp_arg->hd = *server;
                     resp_arg->fd = sock;
-                    if (httpd_queue_work(resp_arg->hd, send_hello, resp_arg) != ESP_OK) {
+                    if (httpd_queue_work(resp_arg->hd, send_dist, resp_arg) != ESP_OK) {
                         ESP_LOGE(TAG, "httpd_queue_work failed!");
                         send_messages = false;
                         break;

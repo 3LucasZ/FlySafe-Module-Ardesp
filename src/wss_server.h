@@ -55,7 +55,7 @@ const httpd_uri_t ws = {
 
 
 
-void send_hello(void *arg);
+void send_dist(void *arg);
 
 void send_ping(void *arg);
 
