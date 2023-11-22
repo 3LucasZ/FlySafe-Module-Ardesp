@@ -5,7 +5,7 @@
 
 #idf_component_register(SRCS ${app_sources})
 
-idf_component_register(SRCS "main.cpp" "keep_alive.c" "wss_server.c"
+idf_component_register(SRCS "main.cpp" "keep_alive.c" "wss_server.c" "LIDARLite.cpp"
                     INCLUDE_DIRS "."
                     EMBED_TXTFILES "certs/servercert.pem"
                                    "certs/prvtkey.pem")

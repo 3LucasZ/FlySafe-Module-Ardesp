@@ -116,7 +116,7 @@ void send_dist(void *arg)
     printf("lidar %d\n", dist);
     // char * data = malloc(sizeof(int));
     // data[0] = lidar_distance(true, LIDARLITE_ADDR_DEFAULT);
-    char data[(((sizeof dist) * CHAR_BIT) + 2)/3 + 2];
+    char data[10];
     sprintf(data, "%d", dist);
     struct async_resp_arg *resp_arg = arg;
     httpd_handle_t hd = resp_arg->hd;
