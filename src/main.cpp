@@ -27,9 +27,8 @@ extern "C" {
 extern "C" void app_main(void)
 {
     initArduino();
-    LIDARLite lidar;
-    lidar.begin(0, true);
-    lidar.configure(3);
+    lidar_begin(0, true, LIDARLITE_ADDR_DEFAULT);
+    lidar_configure(3, LIDARLITE_ADDR_DEFAULT);
 
     static httpd_handle_t server = NULL;
 

@@ -17,10 +17,7 @@
 #include <esp_err.h>
 #include "esp_mac.h"
 
-#define EXAMPLE_ESP_WIFI_SSID       "FlySafeAP"
-#define EXAMPLE_ESP_WIFI_PASS       "FlySafePW"
-#define EXAMPLE_ESP_WIFI_CHANNEL    1
-#define EXAMPLE_MAX_STA_CONN        4
+#define AP_CHANNEL    1
 
 #if !CONFIG_HTTPD_WS_SUPPORT
 #error This example cannot be used unless HTTPD_WS_SUPPORT is enabled in esp-http-server component configuration

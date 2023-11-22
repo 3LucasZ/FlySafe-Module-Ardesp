@@ -15,11 +15,8 @@
 #include "esp_mac.h"
 //***
 #include <wss_server.h>
-#ifdef __cplusplus
-extern "C" {
-    #include <LIDARLite.h>
-}
-#endif
+#include <LIDARLite.h>
+#include <config.h>
 //***
 
 const char *TAG = "wss_echo_server";
@@ -27,8 +24,7 @@ const char *TAG = "wss_echo_server";
 esp_err_t root_get_handler(httpd_req_t *req)
 {
     httpd_resp_set_type(req, "text/html");
-    httpd_resp_send(req, "<h1>Hello Secure World!</h1>", HTTPD_RESP_USE_STRLEN);
-
+    httpd_resp_send(req, "<h1>You have successfully connected to the FlySafe secure server!</h1>", HTTPD_RESP_USE_STRLEN);
     return ESP_OK;
 }
 esp_err_t ws_handler(httpd_req_t *req)
@@ -115,8 +111,13 @@ void wss_close_fd(httpd_handle_t hd, int sockfd)
 
 void send_dist(void *arg)
 {
-
-    const char * data = "Hello client";
+    //const char * data = "Hello client";
+    int dist = lidar_distance(true, LIDARLITE_ADDR_DEFAULT);
+    printf("lidar %d\n", dist);
+    // char * data = malloc(sizeof(int));
+    // data[0] = lidar_distance(true, LIDARLITE_ADDR_DEFAULT);
+    char data[(((sizeof dist) * CHAR_BIT) + 2)/3 + 2];
+    sprintf(data, "%d", dist);
     struct async_resp_arg *resp_arg = arg;
     httpd_handle_t hd = resp_arg->hd;
     int fd = resp_arg->fd;
@@ -250,7 +251,7 @@ void wss_server_send_messages(httpd_handle_t* server)
 
     // Send async message to all connected clients that use websocket protocol every 10 seconds
     while (send_messages) {
-        vTaskDelay(10000 / portTICK_PERIOD_MS);
+        vTaskDelay(BROADCAST_PERIOD / portTICK_PERIOD_MS);
 
         if (!*server) { // httpd might not have been created by now
             continue;
@@ -309,11 +310,11 @@ esp_err_t wifi_init_softap(void)
 
     wifi_config_t wifi_config = {
         .ap = {
-            .ssid = EXAMPLE_ESP_WIFI_SSID,
-            .ssid_len = strlen(EXAMPLE_ESP_WIFI_SSID),
-            .channel = EXAMPLE_ESP_WIFI_CHANNEL,
-            .password = EXAMPLE_ESP_WIFI_PASS,
-            .max_connection = EXAMPLE_MAX_STA_CONN,
+            .ssid = AP_SSID,
+            .ssid_len = strlen(AP_SSID),
+            .channel = AP_CHANNEL,
+            .password = AP_PW,
+            .max_connection = MAX_STA_CONN,
 #ifdef CONFIG_ESP_WIFI_SOFTAP_SAE_SUPPORT
             .authmode = WIFI_AUTH_WPA3_PSK,
             .sae_pwe_h2e = WPA3_SAE_PWE_BOTH,
@@ -325,7 +326,7 @@ esp_err_t wifi_init_softap(void)
             //** },
         },
     };
-    if (strlen(EXAMPLE_ESP_WIFI_PASS) == 0) {
+    if (strlen(AP_PW) == 0) {
         wifi_config.ap.authmode = WIFI_AUTH_OPEN;
     }
 
@@ -334,6 +335,6 @@ esp_err_t wifi_init_softap(void)
     ESP_ERROR_CHECK(esp_wifi_start());
 
     ESP_LOGI(TAG, "wifi_init_softap finished. SSID:%s password:%s channel:%d",
-             EXAMPLE_ESP_WIFI_SSID, EXAMPLE_ESP_WIFI_PASS, EXAMPLE_ESP_WIFI_CHANNEL);
+             AP_SSID, AP_PW, AP_CHANNEL);
     return ESP_OK;
 }
