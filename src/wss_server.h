@@ -34,6 +34,8 @@ const size_t max_clients = 4;
 
 esp_err_t root_get_handler(httpd_req_t *req);
 
+esp_err_t reboot_get_handler(httpd_req_t *req);
+
 esp_err_t ws_handler(httpd_req_t *req);
 
 esp_err_t wss_open_fd(httpd_handle_t hd, int sockfd);
@@ -83,6 +85,16 @@ const httpd_uri_t root = {
         .uri        = "/",
         .method     = HTTP_GET,
         .handler    = root_get_handler,
+        .user_ctx   = NULL,
+        .is_websocket = false,
+        .handle_ws_control_frames = false,
+        .supported_subprotocol = "soap",
+};
+
+const httpd_uri_t reboot = {
+        .uri        = "/reboot",
+        .method     = HTTP_POST,
+        .handler    = reboot_get_handler,
         .user_ctx   = NULL,
         .is_websocket = false,
         .handle_ws_control_frames = false,

@@ -27,6 +27,13 @@ esp_err_t root_get_handler(httpd_req_t *req)
     httpd_resp_send(req, "<h1>You have successfully connected to the FlySafe secure server!</h1>", HTTPD_RESP_USE_STRLEN);
     return ESP_OK;
 }
+esp_err_t reboot_get_handler(httpd_req_t *req)
+{
+    // httpd_resp_set_type(req, "text/html");
+    // httpd_resp_send(req, "<h1>You have successfully rebooted the FlySafe secure server!</h1>", HTTPD_RESP_USE_STRLEN);
+    esp_restart();
+    return ESP_OK;
+}
 esp_err_t ws_handler(httpd_req_t *req)
 {
     if (req->method == HTTP_GET) {
@@ -207,6 +214,7 @@ httpd_handle_t start_wss_echo_server(void)
     ESP_LOGI(TAG, "Registering URI handlers");
     httpd_register_uri_handler(server, &ws);
     httpd_register_uri_handler(server, &root);
+    httpd_register_uri_handler(server, &reboot);
     wss_keep_alive_set_user_ctx(keep_alive, server);
 
     return server;
