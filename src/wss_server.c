@@ -24,7 +24,7 @@ const char *TAG = "wss_echo_server";
 esp_err_t root_get_handler(httpd_req_t *req)
 {
     httpd_resp_set_type(req, "text/html");
-    httpd_resp_send(req, "<h1>You have successfully connected to the FlySafe secure server!</h1>", HTTPD_RESP_USE_STRLEN);
+    httpd_resp_send(req, "<h1>The FlySafe secure server certificate is on your device.</h1>", HTTPD_RESP_USE_STRLEN);
     return ESP_OK;
 }
 esp_err_t reboot_get_handler(httpd_req_t *req)
@@ -123,7 +123,7 @@ void send_dist(void *arg)
     printf("lidar %d\n", dist);
     // char * data = malloc(sizeof(int));
     // data[0] = lidar_distance(true, LIDARLITE_ADDR_DEFAULT);
-    char data[10];
+    char data[1024];
     sprintf(data, "%d", dist);
     struct async_resp_arg *resp_arg = arg;
     httpd_handle_t hd = resp_arg->hd;

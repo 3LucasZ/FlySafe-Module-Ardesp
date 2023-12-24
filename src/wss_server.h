@@ -17,7 +17,6 @@
 #include <esp_err.h>
 #include "esp_mac.h"
 
-#define AP_CHANNEL    1
 
 #if !CONFIG_HTTPD_WS_SUPPORT
 #error This example cannot be used unless HTTPD_WS_SUPPORT is enabled in esp-http-server component configuration
@@ -41,18 +40,6 @@ esp_err_t ws_handler(httpd_req_t *req);
 esp_err_t wss_open_fd(httpd_handle_t hd, int sockfd);
 
 void wss_close_fd(httpd_handle_t hd, int sockfd);
-
-const httpd_uri_t ws = {
-        .uri        = "/ws",
-        .method     = HTTP_GET,
-        .handler    = ws_handler,
-        .user_ctx   = NULL,
-        .is_websocket = true,
-        .handle_ws_control_frames = true,
-        .supported_subprotocol = "soap",
-};
-
-
 
 void send_dist(void *arg);
 
@@ -80,6 +67,16 @@ void wifi_event_handler(void* arg, esp_event_base_t event_base,
                                     int32_t event_id, void* event_data);
 
 esp_err_t wifi_init_softap(void);
+
+const httpd_uri_t ws = {
+        .uri        = "/ws",
+        .method     = HTTP_GET,
+        .handler    = ws_handler,
+        .user_ctx   = NULL,
+        .is_websocket = true,
+        .handle_ws_control_frames = true,
+        .supported_subprotocol = "soap",
+};
 
 const httpd_uri_t root = {
         .uri        = "/",
