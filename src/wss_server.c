@@ -116,11 +116,12 @@ void wss_close_fd(httpd_handle_t hd, int sockfd)
     close(sockfd);
 }
 
+extern int dist;
 void send_dist(void *arg)
 {
     //const char * data = "Hello client";
-    int dist = lidar_distance(true, LIDARLITE_ADDR_DEFAULT);
-    printf("lidar %d\n", dist);
+    // int dist = lidar_distance(true, LIDARLITE_ADDR_DEFAULT);
+    // printf("lidar %d\n", dist);
     // char * data = malloc(sizeof(int));
     // data[0] = lidar_distance(true, LIDARLITE_ADDR_DEFAULT);
     char data[1024];

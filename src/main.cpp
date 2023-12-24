@@ -18,17 +18,38 @@ extern "C" {
 #include <Arduino.h>
 #include <Wire.h>
 #include <LIDARLite.h>
+#include <config.h>
 
 extern "C" {
     #include "keep_alive.h"
     #include "wss_server.h"
 }
 
+int dist = 0;
+void lidarTaskCode( void * pvParameters ){
+  printf("lidar task running on core ");
+  printf(""+xPortGetCoreID());
+
+  for(;;){
+    dist = lidar_distance(true, LIDARLITE_ADDR_DEFAULT);
+    printf("lidar %d\n", dist);
+    delay(LIDAR_PERIOD);
+  } 
+}
 extern "C" void app_main(void)
 {
     initArduino();
     lidar_begin(0, true, LIDARLITE_ADDR_DEFAULT);
     lidar_configure(3, LIDARLITE_ADDR_DEFAULT);
+    TaskHandle_t lidarTask;
+    xTaskCreatePinnedToCore(
+                    lidarTaskCode,   /* Task function. */
+                    "Task1",     /* name of task. */
+                    10000,       /* Stack size of task */
+                    NULL,        /* parameter of the task */
+                    1,           /* priority of the task */
+                    &lidarTask,      /* Task handle to keep track of created task */
+                    0);          /* pin task to core 0 */ 
 
     static httpd_handle_t server = NULL;
 
