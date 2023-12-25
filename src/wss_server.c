@@ -268,9 +268,11 @@ void wss_server_send_messages(httpd_handle_t* server)
         size_t clients = max_clients;
         int    client_fds[max_clients];
         if (httpd_get_client_list(*server, &clients, client_fds) == ESP_OK) {
+            // int cnt = 0;
             for (size_t i=0; i < clients; ++i) {
                 int sock = client_fds[i];
                 if (httpd_ws_get_fd_info(*server, sock) == HTTPD_WS_CLIENT_WEBSOCKET) {
+                    // cnt++;
                     ESP_LOGI(TAG, "Active client (fd=%d) -> sending async message", sock);
                     struct async_resp_arg *resp_arg = malloc(sizeof(struct async_resp_arg));
                     resp_arg->hd = *server;
@@ -282,6 +284,7 @@ void wss_server_send_messages(httpd_handle_t* server)
                     }
                 }
             }
+            // printf("#WS %d\n", cnt);
         } else {
             ESP_LOGE(TAG, "httpd_get_client_list failed!");
             return;
