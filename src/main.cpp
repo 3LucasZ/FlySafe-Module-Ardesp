@@ -33,6 +33,15 @@ void lidarTaskCode( void * pvParameters ){
   for(;;){
     dist = lidar_distance(true, LIDARLITE_ADDR_DEFAULT);
     printf("lidar %d\n", dist);
+
+    wifi_sta_list_t wifi_sta_list;
+    tcpip_adapter_sta_list_t adapter_sta_list;
+    memset(&wifi_sta_list, 0, sizeof(wifi_sta_list));
+    memset(&adapter_sta_list, 0, sizeof(adapter_sta_list));
+    esp_wifi_ap_get_sta_list(&wifi_sta_list);
+    tcpip_adapter_get_sta_list(&wifi_sta_list, &adapter_sta_list);
+    printf("#STA %d\n", adapter_sta_list.num);
+
     delay(LIDAR_PERIOD);
   } 
 }
@@ -61,14 +70,14 @@ extern "C" void app_main(void)
      * and stop server when disconnection happens.
      */
 
-#ifdef CONFIG_EXAMPLE_CONNECT_WIFI
-    ESP_ERROR_CHECK(esp_event_handler_register(IP_EVENT, IP_EVENT_STA_GOT_IP, &connect_handler, &server));
-    ESP_ERROR_CHECK(esp_event_handler_register(WIFI_EVENT, WIFI_EVENT_STA_DISCONNECTED, &disconnect_handler, &server));
-#endif // CONFIG_EXAMPLE_CONNECT_WIFI
-#ifdef CONFIG_EXAMPLE_CONNECT_ETHERNET
-    ESP_ERROR_CHECK(esp_event_handler_register(IP_EVENT, IP_EVENT_ETH_GOT_IP, &connect_handler, &server));
-    ESP_ERROR_CHECK(esp_event_handler_register(ETH_EVENT, ETHERNET_EVENT_DISCONNECTED, &disconnect_handler, &server));
-#endif // CONFIG_EXAMPLE_CONNECT_ETHERNET
+// #ifdef CONFIG_EXAMPLE_CONNECT_WIFI
+//     ESP_ERROR_CHECK(esp_event_handler_register(IP_EVENT, IP_EVENT_STA_GOT_IP, &connect_handler, &server));
+//     ESP_ERROR_CHECK(esp_event_handler_register(WIFI_EVENT, WIFI_EVENT_STA_DISCONNECTED, &disconnect_handler, &server));
+// #endif // CONFIG_EXAMPLE_CONNECT_WIFI
+// #ifdef CONFIG_EXAMPLE_CONNECT_ETHERNET
+//     ESP_ERROR_CHECK(esp_event_handler_register(IP_EVENT, IP_EVENT_ETH_GOT_IP, &connect_handler, &server));
+//     ESP_ERROR_CHECK(esp_event_handler_register(ETH_EVENT, ETHERNET_EVENT_DISCONNECTED, &disconnect_handler, &server));
+// #endif // CONFIG_EXAMPLE_CONNECT_ETHERNET
 
     /* This helper function configures Wi-Fi or Ethernet, as selected in menuconfig.
      * Read "Establishing Wi-Fi or Ethernet Connection" section in
