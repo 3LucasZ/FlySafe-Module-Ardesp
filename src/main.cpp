@@ -32,6 +32,8 @@ void lidarTaskCode( void * pvParameters ){
 
   for(;;){
     dist = lidar_distance(true, LIDARLITE_ADDR_DEFAULT);
+    if (dist < 0) dist = 0;
+    if (dist > 100000) dist = 100000;
     printf("lidar %d\n", dist);
 
     wifi_sta_list_t wifi_sta_list;
