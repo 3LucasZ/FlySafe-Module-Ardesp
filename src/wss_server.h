@@ -16,6 +16,7 @@
 #include "sdkconfig.h"
 #include <esp_err.h>
 #include "esp_mac.h"
+#include "config.h"
 
 
 #if !CONFIG_HTTPD_WS_SUPPORT
@@ -29,7 +30,7 @@ struct async_resp_arg {
 };
 
 extern const char *TAG;
-const size_t max_clients = 4;
+const size_t max_clients = MAX_WS_CONN;
 
 esp_err_t root_get_handler(httpd_req_t *req);
 

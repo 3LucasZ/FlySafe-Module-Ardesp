@@ -7,7 +7,7 @@
     .task_prio = tskIDLE_PRIORITY+1,        \
     .keep_alive_period_ms = 5000,           \
     .not_alive_after_ms = 10000,            \
-}
+} //some of these defaults is edited in wss_server.h. For example, max_clients will be future set to MAX_WS_CONN
 
 struct wss_keep_alive_storage;
 typedef struct wss_keep_alive_storage* wss_keep_alive_t;
