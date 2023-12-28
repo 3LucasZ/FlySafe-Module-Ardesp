@@ -36,14 +36,16 @@ void lidarTaskCode( void * pvParameters ){
     if (dist > 100000) dist = 100000;
     printf("lidar %d\n", dist);
 
-    wifi_sta_list_t wifi_sta_list;
-    tcpip_adapter_sta_list_t adapter_sta_list;
-    memset(&wifi_sta_list, 0, sizeof(wifi_sta_list));
-    memset(&adapter_sta_list, 0, sizeof(adapter_sta_list));
-    esp_wifi_ap_get_sta_list(&wifi_sta_list);
-    tcpip_adapter_get_sta_list(&wifi_sta_list, &adapter_sta_list);
-    printf("#STA %d\n", adapter_sta_list.num);
-
+    if (DBG) {
+      wifi_sta_list_t wifi_sta_list;
+      tcpip_adapter_sta_list_t adapter_sta_list;
+      memset(&wifi_sta_list, 0, sizeof(wifi_sta_list));
+      memset(&adapter_sta_list, 0, sizeof(adapter_sta_list));
+      esp_wifi_ap_get_sta_list(&wifi_sta_list);
+      tcpip_adapter_get_sta_list(&wifi_sta_list, &adapter_sta_list);
+      printf("#STA %d\n", adapter_sta_list.num);
+    }
+    
     delay(LIDAR_PERIOD);
   } 
 }

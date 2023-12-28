@@ -8,5 +8,6 @@
 #define MAX_WS_CONN 5
 #define BROADCAST_PERIOD 250
 #define LIDAR_PERIOD 250
+#define DBG false
 
 #endif
